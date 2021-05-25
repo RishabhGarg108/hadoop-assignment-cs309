@@ -1,6 +1,6 @@
 import random
 
-filename = "data.txt"
+filename = "input/data.txt"
 n = 1000000
 
 with open(filename, 'w') as f:
