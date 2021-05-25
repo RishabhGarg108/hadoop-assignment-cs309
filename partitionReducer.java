@@ -7,7 +7,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.*;
 
-public class Reducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
+public class partitionReducer extends MapReduceBase implements Reducer<Text, IntWritable, Text, IntWritable> {
 
 	public void reduce(Text t_key, Iterator<IntWritable> values, OutputCollector<Text,IntWritable> output, Reporter reporter) throws IOException {
 		Text key = t_key;

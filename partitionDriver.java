@@ -4,11 +4,11 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
 
-public class Driver {
+public class partitionDriver {
     public static void main(String[] args) {
         JobClient my_client = new JobClient();
         // Create a configuration object for the job
-        JobConf job_conf = new JobConf(SalesCountryDriver.class);
+        JobConf job_conf = new JobConf(partitionDriver.class);
 
         // Set a name of the Job
         job_conf.setJobName("SalePerCountry");
@@ -18,8 +18,8 @@ public class Driver {
         job_conf.setOutputValueClass(IntWritable.class);
 
         // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(SalesCountry.SalesMapper.class);
-        job_conf.setReducerClass(SalesCountry.SalesCountryReducer.class);
+        job_conf.setMapperClass(assignment.partitionMapper.class);
+        job_conf.setReducerClass(assignment.partitionReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);
