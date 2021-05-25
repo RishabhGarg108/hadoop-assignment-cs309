@@ -1,10 +1,10 @@
-package SalesCountry;
+package assignment;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
 
-public class SalesCountryDriver {
+public class Driver {
     public static void main(String[] args) {
         JobClient my_client = new JobClient();
         // Create a configuration object for the job
