@@ -3,6 +3,7 @@ package assignment;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
+// import java.lang;
 
 public class partitionDriver {
     public static void main(String[] args) {
@@ -18,8 +19,8 @@ public class partitionDriver {
         job_conf.setOutputValueClass(IntWritable.class);
 
         // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(assignment.partitionMapper.class);
-        job_conf.setReducerClass(assignment.partitionReducer.class);
+        job_conf.setMapperClass(partitionMapper.class);
+        job_conf.setReducerClass(partitionReducer.class);
 
         // Specify formats of the data type of Input and output
         job_conf.setInputFormat(TextInputFormat.class);
