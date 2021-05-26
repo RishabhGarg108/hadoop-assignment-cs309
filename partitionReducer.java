@@ -3,22 +3,22 @@ package assignment;
 import java.io.IOException;
 import java.util.*;
 
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class partitionReducer extends Reducer<Text, LongWritable, Text, Text> {
+public class partitionReducer extends Reducer<Text, Text, Text, Text> {
 
 	private static Map<String, Long> categoryTotal;
 
-	public void reduce(Text category, Iterable<LongWritable> values, Context context
+	public void reduce(Text category, Iterable<Text> values, Context context
 			) throws IOException, InterruptedException {
 		String strCategory = category.toString();
 		if (!categoryTotal.containsKey(strCategory))
 			categoryTotal.put(strCategory, 0L);
 		
-		for (LongWritable val : values)
-			categoryTotal.put(strCategory, categoryTotal.get(strCategory) + val.get());
+		for (Text val : values)
+			categoryTotal.put(strCategory, 10L);
+			//categoryTotal.put(strCategory, categoryTotal.get(strCategory) + val.get());
 		
 		for (Map.Entry element : categoryTotal.entrySet())
 		{

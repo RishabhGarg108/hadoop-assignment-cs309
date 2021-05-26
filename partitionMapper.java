@@ -3,17 +3,15 @@ package assignment;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class partitionMapper extends Mapper <IntWritable, Text, Text, LongWritable> {
-	private LongWritable total = new LongWritable(0);
+public class partitionMapper extends Mapper <Text, Text, Text, Text> {
+	private Text total = new Text();
 	private Text txid = new Text();
 	private Text category = new Text();
 
-	public void map(IntWritable key, Text value, Context context) throws IOException, InterruptedException {
+	public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
 
 		StringTokenizer itr = new StringTokenizer(value.toString());
 		long sum = 0L;
@@ -35,7 +33,9 @@ public class partitionMapper extends Mapper <IntWritable, Text, Text, LongWritab
 		else if (count >= 31 && count <= 40) category.set("class4");
 		else if (count >= 41 && count <= 50) category.set("class5");
 		
-		total.set(sum);
+		total.set(Long.toString(sum));
+
+		//Text outputTotal = new Text(Long.toString(total.get()));
 
 		context.write(category, total);
 		
