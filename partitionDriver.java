@@ -1,43 +1,29 @@
 package assignment;
 
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
 import org.apache.hadoop.mapred.*;
-// import java.lang;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class partitionDriver {
-    public static void main(String[] args) {
-        JobClient my_client = new JobClient();
-        // Create a configuration object for the job
-        JobConf job_conf = new JobConf(partitionDriver.class);
+    public static void main(String[] args) throws Exception {
+	Configuration conf = new Configuration();
+	Job job = Job.getInstance(conf, "partition");
 
-        // Set a name of the Job
-        job_conf.setJobName("SalePerCountry");
+        job.setJarByClass(partitionDriver.class);
+        job.setMapperClass(partitionMapper.class);
+        job.setCombinerClass(partitionReducer.class);
+        job.setReducerClass(partitionReducer.class);
+        
+	job.setOutputKeyClass(Text.class);
+        job.setOutputValueClass(Text.class);
 
-        // Specify data type of output key and value
-        job_conf.setOutputKeyClass(Text.class);
-        job_conf.setOutputValueClass(IntWritable.class);
+        FileInputFormat.addInputPath(job, new Path(args[0]));
+        FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        // Specify names of Mapper and Reducer Class
-        job_conf.setMapperClass(partitionMapper.class);
-        job_conf.setReducerClass(partitionReducer.class);
-
-        // Specify formats of the data type of Input and output
-        job_conf.setInputFormat(TextInputFormat.class);
-        job_conf.setOutputFormat(TextOutputFormat.class);
-
-        // Set input and output directories using command line arguments, 
-        //arg[0] = name of input directory on HDFS, and arg[1] =  name of output directory to be created to store the output file.
-
-        FileInputFormat.setInputPaths(job_conf, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job_conf, new Path(args[1]));
-
-        my_client.setConf(job_conf);
-        try {
-            // Run the job 
-            JobClient.runJob(job_conf);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
