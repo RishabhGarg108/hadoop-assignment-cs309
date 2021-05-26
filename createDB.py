@@ -2,7 +2,7 @@ import random
 
 filename = "input/data.txt"
 n = 1000000
-
+# n=100
 with open(filename, 'w') as f:
     for idx in range(1, n + 1):
         row = [str(idx) + ":"]

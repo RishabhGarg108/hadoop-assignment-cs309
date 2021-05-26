@@ -2,21 +2,20 @@ package assignment;
 
 import java.io.IOException;
 import java.util.StringTokenizer;
-
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class partitionMapper extends Mapper <Text, Text, Text, Text> {
+public class partitionMapper extends Mapper <LongWritable, Text, Text, Text> {
 	private Text total = new Text();
 	private Text txid = new Text();
 	private Text category = new Text();
-
-	public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
-
+	
+	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 		StringTokenizer itr = new StringTokenizer(value.toString());
 		long sum = 0L;
 		int count = 0;
-		
+
 		// Extracting the Transaction ID.
 		String id = itr.nextToken();
 		txid.set(id.substring(0, id.length() - 1));
@@ -26,6 +25,7 @@ public class partitionMapper extends Mapper <Text, Text, Text, Text> {
 			count += 1;
 			sum += Long.parseLong(itr.nextToken());
 		}
+
 		
 		if (count >= 1 && count <= 10) category.set("class1");
 		else if (count >= 11 && count <= 20) category.set("class2");
